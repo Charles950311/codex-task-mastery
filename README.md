@@ -2,7 +2,33 @@
 
 一套面向 Codex 的“任务总控”技能包：让 Codex **更理解任务目的、更高效地执行、更省时间与 token、并用证据把目标真正达成**。
 
-> 仓库版本：**v1.1.0**（2026-10-24，变更记录见 [CHANGELOG.md](CHANGELOG.md)）｜ 本仓库已纳入 git 版本管理
+> 仓库版本：**v1.2.0**（2026-10-24，变更记录见 [CHANGELOG.md](CHANGELOG.md)）｜ 本仓库已纳入 git 版本管理
+> 技能遵循 [Agent Skills 官方规范](https://agentskills.io/specification)，兼容 Codex / Claude Code 等生态
+
+## 仓库全景
+
+| 资产 | 位置 | 说明 |
+|---|---|---|
+| 任务总控技能包 | `skills/` | 8 个流程技能 + 2 个领域技能，安装到技能目录后自动触发 |
+| 项目开展提示词 | `福建代账智能体-*.md`、`分段粘贴/` | 福建代账智能体：执行提示词 v1.2（唯一事实源）+ 精简版 + 启动指令 + 8 段粘贴版 |
+| 通用方法论 | `项目开展提示词-通用骨架.md` | 跨编程智能体的开工提示词写法（意图先行/方法内联/降级成文） |
+| 工具链 | `install-skills.ps1`、`lint-skills.py` | 安装同步（漂移检测）+ 规范校验（可接 CI） |
+| 研究底稿 | `_research/` | 技能来源研究 + 商业项目对标报告 |
+| 维护文档 | `MAINTENANCE.md`、`AGENTS.md` | 维护手册（同步清单/触发自测）；AGENTS.md 供编程智能体读取仓库约定 |
+
+## 快速上手
+```powershell
+# 1. 安装技能（./skills → ~/.codex/skills，幂等）
+powershell -ExecutionPolicy Bypass -File .\install-skills.ps1
+
+# 2. 校验（可选）：技能规范 + 源与安装端一致性
+python lint-skills.py
+powershell -ExecutionPolicy Bypass -File .\install-skills.ps1 -Mode check
+
+# 3. 重启 Codex 并新开会话，技能元数据即被加载
+```
+
+日常使用只需两步：描述任务（自动按 description 匹配触发），或点名技能（如“用 `task-brief` 先对齐需求”）。要跑福建代账项目，直接把 `福建代账智能体-启动指令.md` 的内容发给任意编程智能体。
 
 ## 它解决什么问题
 | 常见失败 | 本技能包的对应技能 |
@@ -59,6 +85,11 @@ Copy-Item -Recurse -Force ".\skills\*" "$env:USERPROFILE\.codex\skills\"
 
 然后**重启 Codex 并新开会话**，技能元数据才会被加载。
 
+## 维护
+- 改技能 / 新增技能 / 改提示词：按 [MAINTENANCE.md](MAINTENANCE.md) 的三份同步清单执行；改动后跑 `python lint-skills.py`。
+- 编程智能体在本仓库工作时的约定见 [AGENTS.md](AGENTS.md)。
+- 触发自测用例（验证技能仍被正确触发）见 MAINTENANCE.md 第 5 节。
+
 ## 设计原则（来自对头部开源技能的研究）
 1. **目的优先于动作**：先锁定“可观察的结果”，再谈怎么实现。
 2. **一切以可验证为准**：没有证据不说“完成”。
@@ -83,31 +114,27 @@ Copy-Item -Recurse -Force ".\skills\*" "$env:USERPROFILE\.codex\skills\"
 | `Mai-xiyu/Codex-Prompt` | 数百 | 理性克制、显式不确定性、可运行方案 |
 | `Mai-xiyu/wide-lens-engineering` | — | 弹性任务 DAG、单一 canonical writer、失败卡片 |
 
+2026-10 起另按官方规范与商业实践做了一轮对标（Agent Skills spec / Codex / Cursor / AGENTS.md 标准），差距判定与落地动作见 [_research/商业对标-2026-10.md](_research/商业对标-2026-10.md)。
+
 > 说明：星标量为研究时快照，仅用于体现“热门程度”与选材依据；技能正文为面向本项目的重新设计与改写，非原文照搬。
 
 ## 目录结构
 ```
-skills/
-├── start-work/SKILL.md
-│   └── references/workflow-and-output.md
-├── codex-mastery/SKILL.md
-├── task-brief/SKILL.md
-│   └── references/acceptance-brief.md
-├── prompt-forge/SKILL.md
-│   └── references/prompt-patterns.md
-├── context-budget/SKILL.md
-│   └── references/token-and-compaction.md
-├── plan-slices/SKILL.md
-├── repo-first/SKILL.md
-├── verify-claim/SKILL.md
-├── lottery-number-analysis/SKILL.md
-│   ├── references/method-and-math.md
-│   ├── references/ssq-case-study.md
-│   ├── references/source-evidence.md
-│   ├── references/evidence/video-frames.jpg
-│   └── scripts/lottery_math.py
-└── lotto-number-pick/SKILL.md
-    ├── references/method-and-math.md
-    ├── references/source-evidence.md
-    └── scripts/structural_pick.py
+.
+├─ README.md / CHANGELOG.md / AGENTS.md / MAINTENANCE.md
+├─ install-skills.ps1            安装与同步（install / check 双模式）
+├─ lint-skills.py                技能规范校验（按 Agent Skills 官方 spec）
+├─ skills/                       技能源码（安装源）
+│  ├─ start-work/                ├─ references/workflow-and-output.md
+│  ├─ codex-mastery/             ├─ task-brief/（references/acceptance-brief.md）
+│  ├─ prompt-forge/              ├─ references/prompt-patterns.md
+│  ├─ context-budget/            ├─ references/token-and-compaction.md
+│  ├─ plan-slices/ ├─ repo-first/ ├─ verify-claim/
+│  ├─ lottery-number-analysis/   ├─ references/ + scripts/lottery_math.py
+│  └─ lotto-number-pick/         └─ references/ + scripts/structural_pick.py
+├─ 福建代账智能体-执行提示词.md   v1.2（唯一事实源）
+├─ 福建代账智能体-精简版.md / 启动指令.md
+├─ 分段粘贴/                     执行提示词 8 段粘贴版（从属 v1.2）
+├─ 项目开展提示词-通用骨架.md
+└─ _research/                    仓库级研究底稿 + skills/ 逐技能深读 + 商业对标报告
 ```
