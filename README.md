@@ -2,6 +2,8 @@
 
 一套面向 Codex 的“任务总控”技能包：让 Codex **更理解任务目的、更高效地执行、更省时间与 token、并用证据把目标真正达成**。
 
+> 仓库版本：**v1.0.0**（2026-10-24，变更记录见 [CHANGELOG.md](CHANGELOG.md)）｜ 本仓库已纳入 git 版本管理
+
 ## 它解决什么问题
 | 常见失败 | 本技能包的对应技能 |
 |---|---|
@@ -36,8 +38,20 @@
 
 简单、明确、单步、低风险的任务**直接做**，不要套流程——这本身就是 `context-budget` 的要求。
 
-## 安装
-技能源位于本仓库 `skills/`。要让 Codex 在新会话中加载，复制到 `CODEX_HOME/skills`（默认 `~/.codex/skills`）：
+## 安装与同步
+技能源位于本仓库 `skills/`。推荐用仓库自带的同步脚本（自动检测漂移，只覆盖有差异的技能）：
+
+```powershell
+# 安装 / 更新：./skills → ~/.codex/skills（幂等，可重复运行）
+powershell -ExecutionPolicy Bypass -File .\install-skills.ps1
+
+# 只检测源与安装端是否一致，不改动任何文件；有漂移时退出码 1，可用于定期自检
+powershell -ExecutionPolicy Bypass -File .\install-skills.ps1 -Mode check
+```
+
+脚本行为：install 按整目录重建有差异的技能（能清掉源端已删除的文件），只处理本包的技能目录，不触碰 `~/.codex/skills/` 下其它内容（如 `.system`）。
+
+也可手动复制（缺点：不清理源端已删除的文件，也无法发现漂移）：
 
 ```powershell
 Copy-Item -Recurse -Force ".\skills\*" "$env:USERPROFILE\.codex\skills\"
