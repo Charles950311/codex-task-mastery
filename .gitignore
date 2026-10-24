@@ -1,0 +1,13 @@
+# OMX 编排器内部状态（会话日志与运行时数据，不入库）
+.omx/
+
+# 运行产物（如福建代账技能包的月度归档输出）
+output/
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# 系统杂项
+.DS_Store
+Thumbs.db
