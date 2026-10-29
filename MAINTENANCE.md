@@ -57,6 +57,6 @@
 | `install-skills.ps1` | 安装/同步技能（幂等，只重建有差异的技能） | `powershell -ExecutionPolicy Bypass -File install-skills.ps1` |
 | 同上 check 模式 | 只检测源与安装端漂移，不改动 | 同上 + ` -Mode check` |
 
-## 7. 已知待决事项
-- 仓库尚无 LICENSE 文件（法律决定，待定）。
+## 7. 已决事项与有意取舍
+- LICENSE：已采用 MIT（2026-10-30 收口，见 CHANGELOG v1.3.0）。如需更换版权署名，改 LICENSE 版权行即可。
 - 按技能粒度的版本元数据有意未采用（CHANGELOG 已覆盖，避免双重维护）。
