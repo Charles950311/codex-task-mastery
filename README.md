@@ -2,7 +2,7 @@
 
 一套面向 Codex 的“任务总控”技能包：让 Codex **更理解任务目的、更高效地执行、更省时间与 token、并用证据把目标真正达成**。
 
-> 仓库版本：**v1.3.0**（2026-10-30，变更记录见 [CHANGELOG.md](CHANGELOG.md)）｜ 本仓库已纳入 git 版本管理 ｜ 许可证：[MIT](LICENSE)
+> 仓库版本：**v1.4.0**（2026-10-30，变更记录见 [CHANGELOG.md](CHANGELOG.md)）｜ 本仓库已纳入 git 版本管理 ｜ 许可证：[MIT](LICENSE)
 > 技能遵循 [Agent Skills 官方规范](https://agentskills.io/specification)，兼容 Codex / Claude Code 等生态
 
 ## 仓库全景
@@ -91,7 +91,7 @@ Copy-Item -Recurse -Force ".\skills\*" "$env:USERPROFILE\.codex\skills\"
 - 触发自测用例（验证技能仍被正确触发）见 MAINTENANCE.md 第 5 节。
 
 ## 许可证
-本仓库采用 [MIT](LICENSE) 许可证。`_research/` 研究底稿中提及的第三方项目（名称、星标数据、机制）归其各自作者所有；本仓库的技能正文与提示词均为面向本项目的重新设计与改写，非原文照搬（见「研究与来源」说明）。
+本仓库原创内容采用 [MIT](LICENSE) 许可证。`_research/` 中逐字拷贝的第三方内容版权归其各自作者，归属与许可证状态详见 [NOTICE.md](NOTICE.md)；技能正文与提示词均为面向本项目的重新设计与改写，非原文照搬（见「研究与来源」说明）。
 
 ## 设计原则（来自对头部开源技能的研究）
 1. **目的优先于动作**：先锁定“可观察的结果”，再谈怎么实现。
@@ -124,7 +124,7 @@ Copy-Item -Recurse -Force ".\skills\*" "$env:USERPROFILE\.codex\skills\"
 ## 目录结构
 ```
 .
-├─ LICENSE（MIT）/ README.md / CHANGELOG.md / AGENTS.md / MAINTENANCE.md
+├─ LICENSE（MIT）/ NOTICE.md / README.md / CHANGELOG.md / AGENTS.md / MAINTENANCE.md
 ├─ install-skills.ps1            安装与同步（install / check 双模式）
 ├─ lint-skills.py                技能规范校验（按 Agent Skills 官方 spec）
 ├─ skills/                       技能源码（安装源）
