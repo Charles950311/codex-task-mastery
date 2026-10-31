@@ -53,7 +53,7 @@
 ## 6. 工具箱
 | 工具 | 用途 | 命令 |
 |---|---|---|
-| `lint-skills.py` | 技能规范检查（frontmatter/引用/行数；错误退出码 1，可接 CI） | `python lint-skills.py` |
+| `lint-skills.py` | 技能规范 + 登记一致性检查（frontmatter/引用/行数/四处登记互校；错误退出码 1，CI 已接入）；`--self-test` 为校验器自测试 | `python lint-skills.py` |
 | `install-skills.ps1` | 安装/同步技能（幂等，只重建有差异的技能） | `powershell -ExecutionPolicy Bypass -File install-skills.ps1` |
 | 同上 check 模式 | 只检测源与安装端漂移，不改动 | 同上 + ` -Mode check` |
 

@@ -3,6 +3,17 @@
 记录本仓库（Codex Task Mastery 技能包 + 福建代账智能体提示词）的变更。
 福建代账提示词自身的版本见各文件头部（当前 v1.2）；本文件的版本号针对仓库整体与 `skills/` 技能包。
 
+## [1.6.0] - 2026-10-31
+
+### 自动化闭环：CI、发版 tag、校验器自测试与登记一致性检查
+- **新增 `.github/workflows/ci.yml`**（ubuntu-latest；只用官方基础 action，校验逻辑全部来自仓库自带脚本）：① `lint-skills.py --self-test` + 全量 lint（含登记一致性）；② 分段拼接校验（8 段按序拼接 = 执行提示词全文）；③ `install-skills.ps1` 安装后 check 模式自检（pwsh + 显式 `-DestRoot`，跨平台参数化）。
+- **`lint-skills.py` 升级**：
+  - 新增**登记一致性检查**（默认启用，`--no-registry` 跳过）：`skills/` 目录 ↔ README 技能表 ↔ `codex-mastery` 路由表 ↔ MAINTENANCE 触发用例表互相校验——技能漏登记、登记了不存在的技能名均为 ERROR。把 AGENTS.md「新增技能必须三处登记」的人肉纪律变成机器校验；codex-mastery 只查正文不查 frontmatter，防止仅凭 description 里的名字蒙混过关。
+  - 新增 `--self-test`：内置正反样本（缺 SKILL.md / frontmatter 缺失 / name 不合规或不一致 / description 缺失或超长 / 超 500 行 / 引用文件不存在 / 孤儿文件 / 登记不一致三类），校验器自身的回归测试。补上 v1.2.0「已双向测试」只手工跑过、未沉淀为可重跑测试的欠账。
+  - 读文件编码改为 `utf-8-sig`，容忍 BOM。
+- **git tag**：补打 v1.5.0（发布安全加固）与本版 v1.6.0，建立发版打 tag 的惯例。
+- AGENTS.md 验证命令补 `--self-test`（改校验器后必跑）；MAINTENANCE.md 工具箱、README 工具链与目录结构同步。
+
 ## [1.5.0] - 2026-10-31
 
 ### 公开发布安全加固：第三方内容收敛到最小集

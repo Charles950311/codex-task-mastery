@@ -1,0 +1,33 @@
+# CI — 仓库自身的验证闭环（AGENTS.md「验证命令」的自动化形态）
+# 原则：只用官方基础 action（checkout / setup-python），校验逻辑全部来自仓库自带脚本，
+# 不引入第三方检查 action，保持工具链最小与可自证。
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    name: 规范校验 + 登记一致性 + 拼接校验 + 安装同步自检
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 校验器自测试 + 技能规范与登记一致性检查
+        run: |
+          python lint-skills.py --self-test
+          python lint-skills.py
+
+      - name: 分段拼接校验（8 段按序拼接 = 执行提示词全文）
+        run: cat 分段粘贴/第*段-共8段.md | grep -v '^<!--' | diff - 福建代账智能体-执行提示词.md
+
+      - name: 安装同步自检（install → check 无漂移）
+        run: |
+          pwsh -File install-skills.ps1 -DestRoot "$HOME/.codex/skills"
+          pwsh -File install-skills.ps1 -DestRoot "$HOME/.codex/skills" -Mode check

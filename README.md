@@ -2,7 +2,7 @@
 
 一套面向 Codex 的“任务总控”技能包：让 Codex **更理解任务目的、更高效地执行、更省时间与 token、并用证据把目标真正达成**。
 
-> 仓库版本：**v1.5.0**（2026-10-31，变更记录见 [CHANGELOG.md](CHANGELOG.md)）｜ 本仓库已纳入 git 版本管理 ｜ 许可证：[MIT](LICENSE)
+> 仓库版本：**v1.6.0**（2026-10-31，变更记录见 [CHANGELOG.md](CHANGELOG.md)）｜ 本仓库已纳入 git 版本管理 ｜ 许可证：[MIT](LICENSE)
 > 技能遵循 [Agent Skills 官方规范](https://agentskills.io/specification)，兼容 Codex / Claude Code 等生态
 
 ## 仓库全景
@@ -12,7 +12,7 @@
 | 任务总控技能包 | `skills/` | 8 个流程技能 + 2 个领域技能，安装到技能目录后自动触发 |
 | 项目开展提示词 | `福建代账智能体-*.md`、`分段粘贴/` | 福建代账智能体：执行提示词 v1.2（唯一事实源）+ 精简版 + 启动指令 + 8 段粘贴版 |
 | 通用方法论 | `项目开展提示词-通用骨架.md` | 跨编程智能体的开工提示词写法（意图先行/方法内联/降级成文） |
-| 工具链 | `install-skills.ps1`、`lint-skills.py` | 安装同步（漂移检测）+ 规范校验（可接 CI） |
+| 工具链 | `install-skills.ps1`、`lint-skills.py`、GitHub Actions | 安装同步（漂移检测）+ 规范与登记一致性校验（校验器自带自测试，已接 CI） |
 | 研究底稿 | `_research/` | 技能来源研究 + 商业项目对标报告 |
 | 维护文档 | `MAINTENANCE.md`、`AGENTS.md` | 维护手册（同步清单/触发自测）；AGENTS.md 供编程智能体读取仓库约定 |
 
@@ -127,7 +127,8 @@ Copy-Item -Recurse -Force ".\skills\*" "$env:USERPROFILE\.codex\skills\"
 .
 ├─ LICENSE（MIT）/ NOTICE.md / CONTRIBUTING.md / README.md / CHANGELOG.md / AGENTS.md / MAINTENANCE.md
 ├─ install-skills.ps1            安装与同步（install / check 双模式）
-├─ lint-skills.py                技能规范校验（按 Agent Skills 官方 spec）
+├─ lint-skills.py                技能规范 + 登记一致性校验（按 Agent Skills 官方 spec）
+├─ .github/workflows/ci.yml      CI：校验器自测试 + 规范/登记检查 + 拼接校验 + 安装同步自检
 ├─ skills/                       技能源码（安装源）
 │  ├─ start-work/                ├─ references/workflow-and-output.md
 │  ├─ codex-mastery/             ├─ task-brief/（references/acceptance-brief.md）
