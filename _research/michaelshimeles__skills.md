@@ -1,101 +1,18 @@
-﻿# Skills
+# 研究笔记：michaelshimeles/skills（摘要 + 链接）
 
-A collection of [agent skills](https://code.claude.com/docs/en/skills) for Claude Code. Each skill is a folder containing a `SKILL.md` with frontmatter (name, description) and instructions that Claude loads on demand when the task matches.
+> 说明：本文件原为源仓库 README 的逐字拷贝；因源仓库未声明许可证（All rights reserved），已于 2026-10-31（v1.5.0）降级为「摘要 + 链接」，原文拷贝移出公开仓库。
 
-[![skills.sh](https://skills.sh/b/michaelshimeles/skills)](https://skills.sh/michaelshimeles/skills)
+- 来源：https://github.com/michaelshimeles/skills（研究时快照）
+- 性质：Claude Code 技能集，经 `npx skills add` 安装，技能按 description 自动触发。
 
+## 核心机制（研究观察）
+1. **四拍工作流**：其 AGENTS.md 把各技能串成「隔离（独立 worktree 起新任务）→ 构建（分层架构约定）→ 证明（测试时录证据）→ 交付（前后对比截图 + 评审循环）」的完整链路。
+2. **证据驱动测试**：UI 测试时由代理边操作边录像，注解带时间戳烧录进证据视频，连同结果摘要贴到 PR 与 Issue——用可核验的产物替代口头声称；无头环境降级为脚本化截图。
+3. **任务隔离**：每个新任务从 origin/main 切独立 git worktree，支持多代理并行互不冲突，合并后清理。
+4. **Vendor + 本地化改造**：第三方技能收入时附带其许可证文件（license included in the folder），并按本地触发习惯改写 frontmatter 触发描述。
+5. **其他技能形态**：actions / service 两层架构约定、去除 AI 腔的写作技能、PR 评审循环至满分等。
 
-## Available skills
-
-### [before-and-after](before-and-after/SKILL.md)
-
-Captures before/after screenshots of web pages or elements and outputs a PR-ready markdown comparison table. It drives the `@vercel/before-and-after` CLI.
-
-Use it when:
-
-- A PR needs visual proof that a UI change does what it claims
-- You want a `| Before | After |` table generated and uploaded in one step
-- Comparing two URLs, two existing images, or a mix of both
-
-> Vendored from [vercel-labs/before-and-after](https://github.com/vercel-labs/before-and-after) (PolyForm Shield 1.0.0, license included in the folder). Install the CLI with `npm i -g @vercel/before-and-after agent-browser`.
-
-### [code-structure](code-structure/SKILL.md)
-
-Service layer architecture guidance. Enforces a two-layer separation where **actions** orchestrate domain rules (the "why/when") and a **service layer** centralizes reusable operational mechanics (the "how").
-
-Use it when:
-
-- Multiple workflows duplicate the same operational logic
-- You're deciding what belongs in actions vs. shared services
-- A bug fix in one flow doesn't propagate to others doing the same thing
-- Adding a feature that shares mechanics with existing ones
-
-Includes a migration checklist for extracting shared logic safely and a table of anti-patterns to avoid (god services, leaky services, over-abstraction).
-
-### [evidence-driven-testing](evidence-driven-testing/SKILL.md)
-
-Records visual proof while testing UI behavior. The agent drives the app live via computer use (or [cua-driver](https://github.com/trycua/cua) when the harness has no computer-use tools) while the bundled recorder captures the session, then posts the video and a results summary to the PR and tracker issue. The recorder (`scripts/evidence.py`, Python 3 + FFmpeg) runs on Linux, macOS, and Windows and has `doctor`, `start`, `annotate`, and `stop` commands. It timestamps each annotation as the agent tests, burns them into `evidence.mp4` on stop, and summarizes them in a generated `report.md` and `manifest.json`. Headless environments swap the recorder for scripted screenshots and Playwright captures; non-UI changes still get evidence (measured numbers, output pairs, transcript excerpts).
-
-Use it whenever a change needs verifiable evidence that it works, instead of prose claims.
-
-> The recorder needs `ffmpeg`/`ffprobe` built with `libx264` and the `ass` filter, plus a screen-capture source: X11 (`DISPLAY`) or wlroots Wayland (`wf-recorder`; GNOME/KDE are not supported) on Linux, Screen Recording permission on macOS, any standard ffmpeg on Windows. `python3 scripts/evidence.py doctor` reports both. The raw capture is MPEG-TS, so a crashed or hard-killed recorder still yields usable evidence. The headless path needs only a running app and a scriptable browser (Playwright via npx). Posting evidence requires the `gh` CLI (or equivalent). `tests/test_evidence.py` smoke-tests the recorder end to end with a synthetic video source (`python3 -m pytest tests/ -q`).
-
-### [greploop](greploop/SKILL.md)
-
-Iteratively fixes a PR (GitHub), MR (GitLab), or shelved changelist (Perforce) until Greptile gives a perfect review: 5/5 confidence with zero unresolved comments. Triggers the review, fixes actionable comments, resolves threads, pushes, and repeats, up to `--max-iterations` cycles (default 10).
-
-Use it to get a PR to a clean Greptile review before merge.
-
-> Vendored from [greptileai/skills](https://github.com/greptileai/skills) (MIT, license included in the folder). Requires Greptile installed on the repo and an authenticated `gh`/`glab`/`p4` CLI.
-
-### [greploop-apps](greploop-apps/SKILL.md)
-
-The same loop as greploop, but it triggers reviews by tagging `@greptile-apps`, which bypasses Greptile's file-count limit on huge PRs that the plain `@greptile` mention refuses to review. When no check run appears, it falls back to polling Greptile's edited summary comment.
-
-Use it when greploop's trigger gets "Too many files changed for review".
-
-> Local variant derived from greptileai's greploop (MIT, license included in the folder); no separate upstream.
-
-### [new-feature](new-feature/SKILL.md)
-
-Starts every new task in an isolated Git worktree branched from `origin/main` so multiple agents can work on the same repo in parallel without conflicts. It covers unique task naming, a scope check against open PRs, fresh dependency installs, and cleanup after merge.
-
-Use it when:
-
-- Starting any new feature, fix, or task, before writing code
-- Multiple agents (or sessions) work the same repository concurrently
-- You need a consistent branch-per-task convention with safe cleanup
-
-Includes harness deltas for Claude Code and Cursor, which manage worktrees themselves.
-
-### [unslop](unslop/SKILL.md)
-
-Edits prose to remove AI tells and put a human voice back in. It names 31 patterns to catch (puffery, filler, hedging, chatbot phrases, em dashes, colons as connectors, bold and emoji overuse, abstract metaphor nouns, passive voice) and a short checklist for adding opinion and rhythm, applied as a four-step loop: scan, rewrite, add soul, self-audit.
-
-Use it when:
-
-- Writing anything a person will read: commit messages, PR titles and bodies, docs, README edits, code comments, chat replies
-- Cleaning up existing text that reads machine-made
-
-> Vendored from [cursor/plugins (pstack)](https://github.com/cursor/plugins/tree/main/pstack/skills/unslop) (MIT, license included in the folder). The body matches upstream; the frontmatter has two edits so agents apply the skill on their own instead of waiting for a typed `/unslop`. We dropped the `disable-model-invocation: true` line, and the description now names the trigger (text you write or edit for a human reader) in place of upstream's "any writing. Must always apply.", so auto-invocation matches the scope `AGENTS.md` gives it. Restore the flag if you want slash-command-only behavior.
-
-## Workflow
-
-[`AGENTS.md`](AGENTS.md) ties the skills together into a four-beat workflow: isolate (`new-feature`) → build (`code-structure`) → prove (`evidence-driven-testing`) → ship (`before-and-after` + `greploop`), with `unslop` applied to everything written for humans along the way. Drop it into a repo alongside the skills and fill in the repo-specific callouts (checks, invariants, environment).
-
-## Installation
-
-Use `npx skills` to install skills to most coding agents:
-
-```bash
-npx skills add michaelshimeles/skills
-```
-
-Claude Code picks up the skill automatically and invokes it when a task matches the skill's description. You can also invoke one explicitly with `/code-structure` or `/evidence-driven-testing`.
-
-## Adding a new skill
-
-1. Create a folder named after the skill (kebab-case).
-2. Add a `SKILL.md` with `name` and `description` frontmatter. The description is what Claude uses to decide when the skill applies, so make it trigger-focused ("Use when...").
-3. Keep instructions concise and actionable; link out to reference files in the folder if they get long.
-
+## 本仓库借鉴的对应关系
+- 「隔离 → 构建 → 证明 → 交付」四拍节奏 → 本仓库 `plan-slices` → `verify-claim` 的交付链与「每片处于干净可回滚状态」。
+- 「交付必须带证据产物」的形态（其视频证据 vs 本仓库的文字证据循环）→ `verify-claim` 的证据化汇报。
+- vendor 附许可证的收编方式 → 本仓库 NOTICE.md 的归属登记做法。

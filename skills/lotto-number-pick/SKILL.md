@@ -56,6 +56,5 @@ python scripts/structural_pick.py pick --n 3   # 确定性生成 3 注结构性�
 
 ## 参考（渐进披露）
 - `references/method-and-math.md`：来源 → 方法拆解 → 数学依据（符号+公式）→ 算例 → 有效性评估。
-- `references/source-evidence.md`：视频元数据、获取渠道与失败记录、逐节时间轴、截图证据、待确认项。
-- `references/evidence/video-frames.jpg`：10 帧关键证据图（含各节标题与关键数字）。
+- `references/source-evidence.md`：视频元数据、获取渠道与失败记录、逐节时间轴（文字证据）、待确认项。
 - `scripts/structural_pick.py`：可复现的数学复算 + 确定性结构性选号。

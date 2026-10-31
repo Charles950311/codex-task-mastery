@@ -3,6 +3,16 @@
 记录本仓库（Codex Task Mastery 技能包 + 福建代账智能体提示词）的变更。
 福建代账提示词自身的版本见各文件头部（当前 v1.2）；本文件的版本号针对仓库整体与 `skills/` 技能包。
 
+## [1.5.0] - 2026-10-31
+
+### 公开发布安全加固：第三方内容收敛到最小集
+- **移除两张第三方视频帧证据图**：`skills/lottery-number-analysis/references/evidence/video-frames.jpg` 与 `skills/lotto-number-pick/references/evidence/video-frames.jpg`。图片不具备文字那样的「研究引用」惯例空间，版权暴露风险高；方法溯源证据由各技能 `references/source-evidence.md` 的逐节文字时间轴完整承载，原始帧与视频仍在研究工作区（`双色球` / `大乐透` 目录，未入库）。同步更新 7 处引用（两个 SKILL.md、两个 source-evidence.md、ssq-case-study.md、method-and-math.md、NOTICE.md）；`.gitignore` 增加 `skills/*/references/evidence/` 防回填。
+- **三个无许可证仓库的原文拷贝降级为「摘要 + 链接」**（同文件名，逐字拷贝移出公开仓库）：`_research/Mai-xiyu__Codex-Prompt.md`（注：源 README 自述 MIT 但无独立 LICENSE 文件，按无许可证从保守处理）、`_research/composio-community__awesome-codex-skills.md`、`_research/michaelshimeles__skills.md`。研究结论（核心机制观察、借鉴对应关系）完整保留。MIT 来源（ECC / addyosmani / FerroxLabs）的逐字拷贝按 MIT 条款保留，并在 NOTICE.md 补上完整 MIT 许可证文本。
+- **新增 `CONTRIBUTING.md`**：外部贡献范围（技能 / 工具 / 文档）、必做验证命令、新增技能最小流程、提交约定、第三方内容红线。
+- **红线入约**：AGENTS.md 约定区与 MAINTENANCE.md 已决事项各加一条「不新增第三方图片 / 无许可证逐字拷贝」。
+- README：版本号、许可证章节表述、维护入口（CONTRIBUTING）、目录结构同步。
+- 背景：公开发布前把版权暴露点收敛——文字有「引用」惯例空间且已全部走摘要+归属，图片与无许可证原文是最薄弱的两处。
+
 ## [1.4.0] - 2026-10-30
 
 ### 公开发布前：第三方内容归属

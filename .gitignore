@@ -11,3 +11,6 @@ __pycache__/
 # 系统杂项
 .DS_Store
 Thumbs.db
+
+# 第三方视频帧证据图：版权原因不入库（文字证据见各技能 references/source-evidence.md）
+skills/*/references/evidence/

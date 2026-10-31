@@ -59,7 +59,6 @@ python scripts/lottery_math.py pick  --game ssq --n 3
 ## 参考（渐进披露）
 - `references/method-and-math.md`：通用参数化数学框架 + 两彩种公式 / 符号 + 算例 + 有效性评估。
 - `references/ssq-case-study.md`：双色球视频（考拉数理《如何中双色球一等奖？基于3505期真实数据的运算分析》）逐节还原。
-- `references/source-evidence.md`：视频元数据、获取渠道与失败记录、逐节时间轴、截图证据、待确认项。
-- `references/evidence/video-frames.jpg`：关键帧证据图（含各节标题与关键数字）。
+- `references/source-evidence.md`：视频元数据、获取渠道与失败记录、逐节时间轴（文字证据）、待确认项。
 - `scripts/lottery_math.py`：参数化复算（ssq / dlt）+ 确定性结构性选号。
 - 大乐透深度专例另见同仓库 `../lotto-number-pick/`（前区 35 选 5 视频的完整还原）。

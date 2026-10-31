@@ -8,7 +8,7 @@
 - 短链 `https://v.douyin.com/WnWWPiMQ0zY/` → 解析为 `https://www.douyin.com/video/7691313717372307571`（item_id `7691313717372307571`）。
 - 视频内标题：**《超级大乐透 1000 万头奖密码》**；作者声明：**“虚构演绎，仅供娱乐”**。
 - 视频时长约 42 秒，为**屏幕文字 + 背景音乐**（无讲解人声，ASR 仅识别到背景歌词），全部方法文字以关键帧读取还原。
-- 完整获取渠道、逐节时间轴与截图证据见 `references/source-evidence.md`（截图：`references/evidence/video-frames.jpg`）。
+- 完整获取渠道与逐节时间轴（文字证据）见 `references/source-evidence.md`（截图证据未入库，版权原因）。
 
 ## 1. 方法拆解（输入 → 规则 / 算法 → 输出）
 
