@@ -1,0 +1,5 @@
+# 行尾锚定：不依赖克隆者的本地 autocrlf 配置
+* text=auto
+*.sh text eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
