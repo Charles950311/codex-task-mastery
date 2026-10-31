@@ -3,6 +3,13 @@
 记录本仓库（Codex Task Mastery 技能包 + 福建代账智能体提示词）的变更。
 福建代账提示词自身的版本见各文件头部（当前 v1.2）；本文件的版本号针对仓库整体与 `skills/` 技能包。
 
+## [1.8.0] - 2026-10-31
+
+### 内容增厚：worked examples 与触发自测升级
+- 8 个流程技能（codex-mastery / start-work / task-brief / prompt-forge / context-budget / plan-slices / repo-first / verify-claim）各补一节「迷你案例」：真实感输入 → 关键输出节选 + 一条错误示范，一屏读完。定位：原则与清单之外的执行一致性锚点（技能设计通行经验：具体示例显著降低执行漂移）；各技能正文仍 <100 行，渐进披露结构不变。
+- MAINTENANCE 第 5 节触发自测升级：增加「最近验证（日期 / harness / 结果）」记录列——当前全部如实标「未实测」，触发行为必须新会话实测，不能凭 description 推断；新增 **3 条冲突对用例**（「开始工作」双技能抢触发、prompt-forge 越权执行、plan-slices+verify-claim 组合触发），覆盖 description 间已知的触发重叠区。
+- 技能 description 未改动，触发语义不变；MAINTENANCE 清单 A 无触发自测增补需求（用例表本身已升级）。
+
 ## [1.7.0] - 2026-10-31
 
 ### 分发：跨平台安装器与多 harness 目标路径

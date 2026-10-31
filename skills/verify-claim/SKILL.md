@@ -47,3 +47,15 @@ description: 交付前证据化验证与怀疑循环：在声称“完成 / 修�
 - 只测了无关路径就宣称完成。
 - 失败后悄悄换判据（moving the goalposts）。
 - 把“没跑的测试”“降级的检查”说成“已验证”。
+
+## 迷你案例
+声明：「登录超时 bug 已修复」。
+汇报（填好的模板）：
+```
+声明：token 过期后刷新页面应跳登录页，而非报 500
+标准：回归测试 + 手工过期 token 场景各通过一次
+验证：pytest tests/test_auth.py::test_expired_token -q → 1 passed；curl 带过期 token → 302 /login
+结论：通过
+缺口与风险：未验证并发刷新；只覆盖 JWT 路径，session 路径未改动
+```
+错误示范：「应该没问题了」/ 只跑了无关路径就报完成。
