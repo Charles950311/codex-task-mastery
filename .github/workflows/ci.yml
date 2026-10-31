@@ -24,9 +24,6 @@ jobs:
           python lint-skills.py --self-test
           python lint-skills.py
 
-      - name: 分段拼接校验（8 段按序拼接 = 执行提示词全文）
-        run: cat 分段粘贴/第*段-共8段.md | grep -v '^<!--' | diff - 福建代账智能体-执行提示词.md
-
       - name: 安装同步自检（install → check 无漂移）
         run: |
           pwsh -File install-skills.ps1 -DestRoot "$HOME/.codex/skills"

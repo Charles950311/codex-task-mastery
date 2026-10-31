@@ -2,7 +2,7 @@
 
 一套面向 Codex 的“任务总控”技能包：让 Codex **更理解任务目的、更高效地执行、更省时间与 token、并用证据把目标真正达成**。
 
-> 仓库版本：**v1.8.0**（2026-10-31，变更记录见 [CHANGELOG.md](CHANGELOG.md)）｜ 本仓库已纳入 git 版本管理 ｜ 许可证：[MIT](LICENSE)
+> 仓库版本：**v2.0.0**（2026-10-31，变更记录见 [CHANGELOG.md](CHANGELOG.md)）｜ 本仓库已纳入 git 版本管理 ｜ 许可证：[MIT](LICENSE)
 > 技能遵循 [Agent Skills 官方规范](https://agentskills.io/specification)，兼容 Codex / Claude Code 等生态
 
 ## 仓库全景
@@ -10,9 +10,8 @@
 | 资产 | 位置 | 说明 |
 |---|---|---|
 | 任务总控技能包 | `skills/` | 8 个流程技能 + 2 个领域技能，安装到技能目录后自动触发 |
-| 项目开展提示词 | `福建代账智能体-*.md`、`分段粘贴/` | 福建代账智能体：执行提示词 v1.2（唯一事实源）+ 精简版 + 启动指令 + 8 段粘贴版 |
-| 通用方法论 | `项目开展提示词-通用骨架.md` | 跨编程智能体的开工提示词写法（意图先行/方法内联/降级成文） |
-| 工具链 | `install-skills.ps1`、`lint-skills.py`、GitHub Actions | 安装同步（漂移检测）+ 规范与登记一致性校验（校验器自带自测试，已接 CI） |
+| 配套业务仓 | `fj-daizhang-prompts`（GitHub 私有仓） | 福建代账智能体项目开展提示词：执行提示词（唯一事实源）+ 精简版 + 启动指令 + 分段粘贴 + 通用骨架 |
+| 工具链 | `install-skills.ps1` / `install-skills.sh`、`lint-skills.py`、GitHub Actions | 安装同步（漂移检测）+ 规范与登记一致性校验（校验器自带自测试，已接 CI） |
 | 研究底稿 | `_research/` | 技能来源研究 + 商业项目对标报告 |
 | 维护文档 | `MAINTENANCE.md`、`AGENTS.md` | 维护手册（同步清单/触发自测）；AGENTS.md 供编程智能体读取仓库约定 |
 
@@ -31,7 +30,7 @@ powershell -ExecutionPolicy Bypass -File .\install-skills.ps1 -Mode check   # �
 
 装到其它 harness（Claude Code / ZCode 等）：bash 加 `--dest ~/.claude/skills`，PowerShell 加 `-DestRoot "$env:USERPROFILE\.claude\skills"`。
 
-日常使用只需两步：描述任务（自动按 description 匹配触发），或点名技能（如“用 `task-brief` 先对齐需求”）。要跑福建代账项目，直接把 `福建代账智能体-启动指令.md` 的内容发给任意编程智能体。
+日常使用只需两步：描述任务（自动按 description 匹配触发），或点名技能（如“用 `task-brief` 先对齐需求”）。
 
 ## 它解决什么问题
 | 常见失败 | 本技能包的对应技能 |
@@ -147,9 +146,5 @@ Copy-Item -Recurse -Force ".\skills\*" "$env:USERPROFILE\.codex\skills\"
 │  ├─ plan-slices/ ├─ repo-first/ ├─ verify-claim/
 │  ├─ lottery-number-analysis/   ├─ references/ + scripts/lottery_math.py
 │  └─ lotto-number-pick/         └─ references/ + scripts/structural_pick.py
-├─ 福建代账智能体-执行提示词.md   v1.2（唯一事实源）
-├─ 福建代账智能体-精简版.md / 启动指令.md
-├─ 分段粘贴/                     执行提示词 8 段粘贴版（从属 v1.2）
-├─ 项目开展提示词-通用骨架.md
 └─ _research/                    研究底稿（MIT 原文拷贝 + 无许可证来源摘要）+ 商业对标报告
 ```
