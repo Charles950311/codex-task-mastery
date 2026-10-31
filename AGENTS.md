@@ -18,6 +18,7 @@
 python lint-skills.py                                                    # 技能规范 + 登记一致性检查
 python lint-skills.py --self-test                                        # 校验器自测试（改 lint-skills.py 后必跑）
 powershell -ExecutionPolicy Bypass -File install-skills.ps1 -Mode check  # 源与安装端一致
+bash install-skills.sh --mode check                                      # macOS/Linux 等价校验（--dest 可指向其它 harness）
 ```
 
 ## 约定

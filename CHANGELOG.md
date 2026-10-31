@@ -3,6 +3,15 @@
 记录本仓库（Codex Task Mastery 技能包 + 福建代账智能体提示词）的变更。
 福建代账提示词自身的版本见各文件头部（当前 v1.2）；本文件的版本号针对仓库整体与 `skills/` 技能包。
 
+## [1.7.0] - 2026-10-31
+
+### 分发：跨平台安装器与多 harness 目标路径
+- **新增 `install-skills.sh`**（bash 跨平台版，行为与 install-skills.ps1 对齐：install 整目录重建可清源端已删文件、check 漂移检测退出码 1、只处理本包技能目录、cmp 字节级比对零外部依赖）。参数：`--mode install|check` / `--source <dir>` / `--dest <dir>`（默认 `~/.codex/skills`），容忍 `--dest '~/x'` 波浪号写法。
+- README 快速上手与安装章节补 bash 用法与多 harness 目标（`--dest ~/.claude/skills` / `~/.zcode/skills`；PowerShell 端用 `-DestRoot`）——兑现「兼容 Codex / Claude Code 等生态」的宣称：此前安装路径只有 Codex。
+- CI 增加一步 bash 安装器自检：临时目标 install → check，并用 bash check 复核 pwsh 刚装好的默认目标（两套安装器交叉互检）。
+- AGENTS.md 验证命令、MAINTENANCE.md 清单 A 与工具箱、CONTRIBUTING.md 验证命令同步补 bash 等价项。
+- 实测（Git Bash on Windows）：CRLF 与 `bash -n` 干净；对真实安装端 check 全一致且与 PowerShell 版判定互证；临时目标安装 → check 一致；改坏 / 多出文件均判漂移（退出码 1），重装即修复且清掉多余文件；完整序列压测 3 轮全部通过。
+
 ## [1.6.0] - 2026-10-31
 
 ### 自动化闭环：CI、发版 tag、校验器自测试与登记一致性检查

@@ -13,7 +13,7 @@
 3. 若改了触发语义（description），跑第 5 节该技能的触发自测。
 4. 若涉及技能增删或路由变化：同步 README 技能表 + `codex-mastery` 路由表。
 5. CHANGELOG 记一行 → git commit。
-6. `powershell -ExecutionPolicy Bypass -File install-skills.ps1` 安装 → 重启智能体并新开会话生效。
+6. 安装（Windows：`install-skills.ps1`；macOS/Linux：`./install-skills.sh`）→ 重启智能体并新开会话生效。
 
 ## 3. 清单 B：新增一个技能
 1. 目录名 = name = 小写字母数字+单连字符（1-64 位）；建 `skills/<name>/SKILL.md`。
@@ -55,6 +55,7 @@
 |---|---|---|
 | `lint-skills.py` | 技能规范 + 登记一致性检查（frontmatter/引用/行数/四处登记互校；错误退出码 1，CI 已接入）；`--self-test` 为校验器自测试 | `python lint-skills.py` |
 | `install-skills.ps1` | 安装/同步技能（幂等，只重建有差异的技能） | `powershell -ExecutionPolicy Bypass -File install-skills.ps1` |
+| `install-skills.sh` | bash 跨平台版安装/同步（行为同 ps1；`--dest` 指定多 harness 目标，`--mode check` 检漂移） | `./install-skills.sh` |
 | 同上 check 模式 | 只检测源与安装端漂移，不改动 | 同上 + ` -Mode check` |
 
 ## 7. 已决事项与有意取舍

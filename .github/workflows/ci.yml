@@ -31,3 +31,9 @@ jobs:
         run: |
           pwsh -File install-skills.ps1 -DestRoot "$HOME/.codex/skills"
           pwsh -File install-skills.ps1 -DestRoot "$HOME/.codex/skills" -Mode check
+
+      - name: bash 安装器自检（临时目标 install → check，并与 pwsh 安装结果互检）
+        run: |
+          bash install-skills.sh --dest "$HOME/.ci-skills-tmp" >/dev/null
+          bash install-skills.sh --dest "$HOME/.ci-skills-tmp" --mode check
+          bash install-skills.sh --mode check

@@ -16,6 +16,7 @@
 ```bash
 python lint-skills.py                                                    # 技能规范检查，退出码非 0 即未通过
 powershell -ExecutionPolicy Bypass -File install-skills.ps1 -Mode check  # 源与安装端一致（Windows）
+./install-skills.sh --mode check                                         # 源与安装端一致（macOS/Linux/Git Bash）
 ```
 
 ## 新增技能的最小流程

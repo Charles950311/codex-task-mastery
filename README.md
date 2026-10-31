@@ -2,7 +2,7 @@
 
 一套面向 Codex 的“任务总控”技能包：让 Codex **更理解任务目的、更高效地执行、更省时间与 token、并用证据把目标真正达成**。
 
-> 仓库版本：**v1.6.0**（2026-10-31，变更记录见 [CHANGELOG.md](CHANGELOG.md)）｜ 本仓库已纳入 git 版本管理 ｜ 许可证：[MIT](LICENSE)
+> 仓库版本：**v1.7.0**（2026-10-31，变更记录见 [CHANGELOG.md](CHANGELOG.md)）｜ 本仓库已纳入 git 版本管理 ｜ 许可证：[MIT](LICENSE)
 > 技能遵循 [Agent Skills 官方规范](https://agentskills.io/specification)，兼容 Codex / Claude Code 等生态
 
 ## 仓库全景
@@ -19,14 +19,17 @@
 ## 快速上手
 ```powershell
 # 1. 安装技能（./skills → ~/.codex/skills，幂等）
-powershell -ExecutionPolicy Bypass -File .\install-skills.ps1
+powershell -ExecutionPolicy Bypass -File .\install-skills.ps1   # Windows
+./install-skills.sh                                             # macOS / Linux / Git Bash
 
-# 2. 校验（可选）：技能规范 + 源与安装端一致性
+# 2. 校验（可选）：技能规范 + 登记一致性 + 源与安装端一致性
 python lint-skills.py
-powershell -ExecutionPolicy Bypass -File .\install-skills.ps1 -Mode check
+powershell -ExecutionPolicy Bypass -File .\install-skills.ps1 -Mode check   # 或：./install-skills.sh --mode check
 
-# 3. 重启 Codex 并新开会话，技能元数据即被加载
+# 3. 重启智能体并新开会话，技能元数据即被加载
 ```
+
+装到其它 harness（Claude Code / ZCode 等）：bash 加 `--dest ~/.claude/skills`，PowerShell 加 `-DestRoot "$env:USERPROFILE\.claude\skills"`。
 
 日常使用只需两步：描述任务（自动按 description 匹配触发），或点名技能（如“用 `task-brief` 先对齐需求”）。要跑福建代账项目，直接把 `福建代账智能体-启动指令.md` 的内容发给任意编程智能体。
 
@@ -75,7 +78,14 @@ powershell -ExecutionPolicy Bypass -File .\install-skills.ps1
 powershell -ExecutionPolicy Bypass -File .\install-skills.ps1 -Mode check
 ```
 
-脚本行为：install 按整目录重建有差异的技能（能清掉源端已删除的文件），只处理本包的技能目录，不触碰 `~/.codex/skills/` 下其它内容（如 `.system`）。
+```bash
+# macOS / Linux / Git Bash（行为与 PowerShell 版一致）
+./install-skills.sh                          # 安装 / 更新，默认装到 ~/.codex/skills
+./install-skills.sh --mode check             # 只检测漂移；退出码 1 = 有漂移
+./install-skills.sh --dest ~/.claude/skills  # 装到其它 harness 的技能目录
+```
+
+两个脚本行为一致：install 按整目录重建有差异的技能（能清掉源端已删除的文件），只处理本包的技能目录，不触碰目标目录下其它内容（如 `.system`）。
 
 也可手动复制（缺点：不清理源端已删除的文件，也无法发现漂移）：
 
@@ -83,7 +93,7 @@ powershell -ExecutionPolicy Bypass -File .\install-skills.ps1 -Mode check
 Copy-Item -Recurse -Force ".\skills\*" "$env:USERPROFILE\.codex\skills\"
 ```
 
-然后**重启 Codex 并新开会话**，技能元数据才会被加载。
+然后**重启对应智能体并新开会话**（装到哪个目录就重启哪个 harness），技能元数据才会被加载。
 
 ## 维护
 - 改技能 / 新增技能 / 改提示词：按 [MAINTENANCE.md](MAINTENANCE.md) 的三份同步清单执行；改动后跑 `python lint-skills.py`。
@@ -126,7 +136,7 @@ Copy-Item -Recurse -Force ".\skills\*" "$env:USERPROFILE\.codex\skills\"
 ```
 .
 ├─ LICENSE（MIT）/ NOTICE.md / CONTRIBUTING.md / README.md / CHANGELOG.md / AGENTS.md / MAINTENANCE.md
-├─ install-skills.ps1            安装与同步（install / check 双模式）
+├─ install-skills.ps1 / .sh      安装与同步（install / check 双模式；PowerShell / bash 跨平台）
 ├─ lint-skills.py                技能规范 + 登记一致性校验（按 Agent Skills 官方 spec）
 ├─ .github/workflows/ci.yml      CI：校验器自测试 + 规范/登记检查 + 拼接校验 + 安装同步自检
 ├─ skills/                       技能源码（安装源）
